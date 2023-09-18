@@ -1,7 +1,10 @@
+import React from 'react';
+
 const AboutUs = ()=> {
   return (
     <div>
-      TODO: Add some information about Us!
+      <h1>About Us</h1>
+      <p>We take strangers things and we list them online for sale!</p>
     </div>
   );
 };

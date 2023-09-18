@@ -22,6 +22,8 @@ const AuthForm = (props)=> {
     }
   };
 
+  const disableButton = !username || !password;
+
   return (
     <form onSubmit={ submit }>
       {
@@ -29,7 +31,7 @@ const AuthForm = (props)=> {
       }
       <input value={ username } onChange={ ev => setUsername(ev.target.value )}/>
       <input value={ password } onChange={ ev => setPassword(ev.target.value )}/>
-      <button>{ props.txt }</button>
+      <button disabled={disableButton}>{ props.txt }</button>
     </form>
   );
 };

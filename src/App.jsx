@@ -1,10 +1,12 @@
-import { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import api from './api';
 import AuthForm from './AuthForm';
 import CreatePost from './CreatePost';
 import Posts from './Posts';
 import Post from './Post';
 import AboutUs from './AboutUs';
+import ContactUs from './ContactUs';
+import MostExpensivePost from './MostExpensivePost';
 
 import { useNavigate, useParams, Link, Routes, Route } from 'react-router-dom';
 
@@ -56,6 +58,11 @@ function App() {
     navigate(`/posts/${post._id}`);
   };
 
+  const onDelete = async (postId) => {
+      await api.deletePost(postId);
+      setPosts(posts.filter((post) => post._id !== postId));
+      navigate('/');
+  };
 
   return (
     <>
@@ -69,6 +76,8 @@ function App() {
             </h1>
             <Link to='/posts/create'>Create A Post</Link>
             <Link to='/about_us'>About Us</Link>
+            <Link to='/contact_us'>Contact Us</Link>
+            <Link to='/most_expensive_post'>Go to Most Expensive Post</Link>
             <Routes>
               <Route path='/posts/create' element={ <CreatePost createPost={ createPost } />} />
             </Routes>
@@ -78,13 +87,16 @@ function App() {
             <AuthForm submit={ register } txt='Register'/>
             <AuthForm submit={ login } txt='Login'/>
             <Link to='/about_us'>About Us</Link>
+            <Link to='/contact_us'>Contact Us</Link>
           </>
         )
       }
-      <Posts posts={ posts } auth={ auth }/>
+      <Posts posts={ posts } auth={ auth } onDelete={onDelete}/>
       <Routes>
-        <Route path='/posts/:id' element={ <Post posts={ posts } auth={ auth }/>} />
+        <Route path='/most_expensive_post' element={<MostExpensivePost posts={posts} />} />
+        <Route path='/posts/:id' element={ <Post posts={ posts } auth={ auth } onDelete={onDelete} />} />
         <Route path='/about_us' element={ <AboutUs />} />
+        <Route path='/contact_us' element={<ContactUs/>} />
       </Routes>
     </>
   )
